@@ -81,7 +81,7 @@ router.post("/signin", async (req, res) => {
   }
 
   // if password given in body of request is right
-  const token = jwt.sign({ email: email }, process.env.JWT_KEY, {
+  const token = jwt.sign({ id: user._id }, process.env.JWT_KEY, {
     expiresIn: "1h",
   });
 

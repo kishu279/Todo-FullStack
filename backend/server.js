@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 
 // routes
 const UserRoutes = require("./route/UserRoutes");
+const TodoRoutes = require("./route/TodoRoutes");
 
 const app = express();
 app.use(express.json());
@@ -24,4 +25,6 @@ app.get("/", async (req, res) => {
 });
 
 app.use("/user", UserRoutes);
+app.use("/todo", TodoRoutes);
+
 main();
