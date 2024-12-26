@@ -4,7 +4,6 @@ import Logo from "./../component/Logo";
 import ButtonSign from "./../component/ButtonSign";
 
 export default function HomePage() {
-
   return (
     <div>
       {/* Upper Layer */}

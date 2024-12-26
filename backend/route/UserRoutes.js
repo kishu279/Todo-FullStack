@@ -15,7 +15,7 @@ router.post("/signup", async (req, res) => {
   if (!name || !email || !pass) {
     return res.status(400).json({
       success: false,
-      message: "required fields are necessary",
+      message: "required fields are necessary !!!",
     });
   }
 
@@ -26,7 +26,7 @@ router.post("/signup", async (req, res) => {
     if (user) {
       return res.status(400).json({
         success: false,
-        message: "user exists with this email",
+        message: "user exists with this email !!!",
       });
     }
 
@@ -57,7 +57,7 @@ router.post("/signin", async (req, res) => {
   if (!email || !pass) {
     return res.status(400).json({
       success: false,
-      message: "required fields are necessary",
+      message: "required fields are necessary !!!",
     });
   }
 
@@ -68,7 +68,7 @@ router.post("/signin", async (req, res) => {
   if (!user) {
     return res.status(400).json({
       success: false,
-      message: "No such user found",
+      message: "No such user found !!!",
     });
   }
 
@@ -76,7 +76,7 @@ router.post("/signin", async (req, res) => {
   if (!(await bcrypt.compare(pass, user.passwd))) {
     return res.status(400).json({
       success: false,
-      message: "unable to login, given credentials are wrong",
+      message: "unable to login, given credentials are wrong !!!",
     });
   }
 
