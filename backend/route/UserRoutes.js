@@ -4,7 +4,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 // mongoose model
-const { UserModel, TodoModel } = require("../model/UserSchema");
+const { UserModel } = require("../model/UserSchema");
+const auth = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -90,6 +91,13 @@ router.post("/signin", async (req, res) => {
     success: false,
     message: "Authentication successfully",
     token: token,
+  });
+});
+
+router.get("/account", auth, async (req, res) => {
+  return res.status(200).json({
+    success: true,
+    message: "Authenticated",
   });
 });
 

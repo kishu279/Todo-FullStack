@@ -26,11 +26,15 @@ async function main() {
 
 app.get("/", async (req, res) => {
   res.status(200).json({
-    success: false,
+    success: true,
     message: "Heii",
   });
 });
 
+app.use((req, res, next) => {
+  console.log("Time: ", Date.now());
+  next();
+});
 app.use("/user", UserRoutes);
 app.use("/todo", TodoRoutes);
 

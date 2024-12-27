@@ -3,11 +3,11 @@ const { UserModel } = require("../model/UserSchema");
 
 const auth = async (req, res, next) => {
   // extract token from headers
-  const token = req.headers["authorization"];
+  const token = req.headers.authorization;
 
   // if token not available
   if (!token) {
-    return res.status(400).json({
+    return res.status(404).json({
       success: false,
       message: "token verification failed signin again",
     });
@@ -21,7 +21,7 @@ const auth = async (req, res, next) => {
     const user = await UserModel.findOne({ _id: decoded.id });
 
     if (!user) {
-      return res.status(400).json({
+      return res.status(404).json({
         success: false,
         message: "user failed to authenticate",
       });
