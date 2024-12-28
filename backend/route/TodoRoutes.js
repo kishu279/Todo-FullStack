@@ -20,7 +20,7 @@ router.post("/create", auth, async (req, res) => {
   // todo created if title found valid
   await TodoModel.create({
     userId: id,
-    todo: title,
+    title: title,
   });
 
   return res.status(200).json({
@@ -32,19 +32,30 @@ router.post("/create", auth, async (req, res) => {
 router.get("/view", auth, async (req, res) => {
   const id = req.userId;
 
-  // find the todo with the help of user id
-  const data = await TodoModel.find({ userId: id });
+  try {
+    const data = await TodoModel.find({ userId: id });
 
-  if (data.length == 0) {
-    res.status(300).json({
+    if (data.length == 0) {
+      return res.status(200).json({
+        success: true,
+        message: "add todos then view todos",
+        data: [],
+      });
+    }
+
+    return res.status(200).json({
       success: true,
-      message: "add todos then view todos",
+      message: "Your todos",
+      data: data,
+    }); // data is in the form of array of objects
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: err
     });
   }
-
-  return res.status(200).json({
-    data,
-  }); // data is in the form of array of objects
+  // find the todo with the help of user id
 });
 
 module.exports = router;

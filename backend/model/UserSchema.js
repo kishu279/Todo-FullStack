@@ -9,7 +9,7 @@ const UserModel = mongoose.model("UserModel", userSchema);
 
 const todoSchema = mongoose.Schema({
   userId: { type: mongoose.Types.ObjectId, ref: UserModel },
-  todo: { type: String },
+  title: { type: String },
 });
 const TodoModel = mongoose.model("TodoModel", todoSchema);
 

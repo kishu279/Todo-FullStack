@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router";
+import { Outlet } from "react-router";
 
 import Logo from "./../component/Logo";
 import ButtonSign from "./../component/ButtonSign";

@@ -3,7 +3,7 @@ const { UserModel } = require("../model/UserSchema");
 
 const auth = async (req, res, next) => {
   // extract token from headers
-  const token = req.headers.authorization;
+  const token = req.headers["authorization"];
 
   // if token not available
   if (!token) {

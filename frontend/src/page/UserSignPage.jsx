@@ -7,6 +7,7 @@ function SignIn() {
   const [loading, setLoading] = useState(false);
   const [errormssg, setError] = useState(null);
   const [response, setResponse] = useState(null);
+  const [token, setToken] = useState(null);
 
   const navigator = useNavigate();
 
@@ -36,6 +37,7 @@ function SignIn() {
 
       const body = await res.json();
       setResponse(body.message);
+      setToken(body.token);
     } catch (err) {
       setError(err.message || "An unexpected error occurred");
     } finally {
@@ -48,11 +50,15 @@ function SignIn() {
   }
 
   if (response) {
-    localStorage.setItem("todo-auth-token", response.token);
+    if (token) {
+      localStorage.setItem("todo-auth-token", token);
+    } else {
+      console.log(" token not found ");
+    }
 
     setTimeout(() => {
       {
-        navigator("/user/sourav");
+        navigator("/dashboard");
       }
     }, 2000);
     return (

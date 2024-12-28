@@ -8,7 +8,7 @@ export default function ButtonSign() {
         className="h-14 w-28 border rounded-3xl relative right-8 pr-3 hover:bg-slate-200 bg-white z-10"
         onClick={() => {
           alert("Signup clicked");
-          navigator("/user/signup");
+          navigator("/signup");
         }}
       >
         Sign Up
@@ -17,7 +17,7 @@ export default function ButtonSign() {
         className="h-14 w-28 border rounded-3xl absolute left-12 pl-4 hover:bg-slate-200 bg-white z-0"
         onClick={() => {
           alert("signin clicked");
-          navigator("/user/signin");
+          navigator("/signin");
         }}
       >
         Sign In

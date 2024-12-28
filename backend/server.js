@@ -35,6 +35,7 @@ app.use((req, res, next) => {
   console.log("Time: ", Date.now());
   next();
 });
+
 app.use("/user", UserRoutes);
 app.use("/todo", TodoRoutes);
 
