@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import Logo from "../component/Logo";
+import Logout from "../component/Logout";
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(false);
@@ -44,7 +45,7 @@ export default function Dashboard() {
   }, []);
 
   if (loading) {
-    return <div>Loading</div>;
+    return <div>Loading ...</div>;
   }
 
   if (errormssg) {
@@ -78,8 +79,9 @@ export default function Dashboard() {
 
   return (
     <div>
-      <nav className="mt-3 shadow-lg display flex">
+      <nav className="mt-3 shadow-lg display flex justify-between">
         <Logo />
+        <Logout />
       </nav>
 
       <nav>
@@ -108,7 +110,14 @@ export default function Dashboard() {
         <div className="border shadow-lg h-[300px] w-[600px] display flex-col">
           {todos.length > 0
             ? todos.map((todo) => {
-                return <ul className="gap-2 shadow-md display flex justify-center" key={todo._id}>{todo.title}</ul>;
+                return (
+                  <ul
+                    className="gap-2 shadow-md display flex justify-center"
+                    key={todo._id}
+                  >
+                    {todo.title}
+                  </ul>
+                );
               })
             : "No todos"}
         </div>
