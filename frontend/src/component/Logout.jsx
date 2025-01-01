@@ -8,6 +8,8 @@ export default function Logout() {
     const timer = setTimeout(() => {
       navigator("/");
     }, 2000);
+
+    // return clearTimeout(timer);
   }
 
   return (

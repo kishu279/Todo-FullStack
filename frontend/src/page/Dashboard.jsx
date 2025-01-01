@@ -5,8 +5,11 @@ import Logout from "../component/Logout";
 export default function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [errormssg, setErrormssg] = useState(null);
-  const [todos, setTodo] = useState([]);
-  const [add, setAdd] = useState("");
+  const [todos, setTodo] = useState([]); //this is used to store and fetch the todos from backend
+  const [add, setAdd] = useState(""); //this is used to set the todos and updating
+
+  const [todoCheck, setTodoCheck] = useState(false); //the todo is checked or not
+
   const token = localStorage.getItem("todo-auth-token");
 
   async function handleView() {
@@ -44,15 +47,11 @@ export default function Dashboard() {
     handleView();
   }, []);
 
-  if (loading) {
-    return <div>Loading ...</div>;
-  }
-
-  if (errormssg) {
-    return <div>{errormssg}</div>;
-  }
-
   async function handleAddTodo() {
+    if (add.length == 0) {
+      setErrormssg("The input field cannot be empty");
+      return;
+    }
     try {
       const res = await fetch("http://localhost:3000/todo/create", {
         method: "POST",
@@ -77,6 +76,21 @@ export default function Dashboard() {
     }
   }
 
+  function handleCheck() {
+    setTodoCheck(!todoCheck);
+    console.log(todoCheck);
+    // we will send the checked to backend and will render
+    
+  }
+
+  if (loading) {
+    return <div>Loading ...</div>;
+  }
+
+  if (errormssg) {
+    return <div>{errormssg}</div>;
+  }
+
   return (
     <div>
       <nav className="mt-3 shadow-lg display flex justify-between">
@@ -87,7 +101,7 @@ export default function Dashboard() {
       <nav>
         <div className="display flex justify-center mt-[50px] display gap-2">
           <input
-            className="border w-[300px] font-mono text-xl"
+            className="border rounded-full w-[300px] font-mono text-xl"
             type="text"
             value={add}
             placeholder="add todos..."
@@ -99,6 +113,7 @@ export default function Dashboard() {
             className="border rounded-lg w-20"
             onClick={() => {
               handleAddTodo();
+              setAdd("");
             }}
           >
             add
@@ -106,7 +121,7 @@ export default function Dashboard() {
         </div>
       </nav>
 
-      <nav className="flex justify-center mt-[50px]">
+      <nav className="flex justify-center mt-[50px] overflow-y-scroll">
         <div className="border shadow-lg h-[300px] w-[600px] display flex-col">
           {todos.length > 0
             ? todos.map((todo) => {
@@ -115,6 +130,14 @@ export default function Dashboard() {
                     className="gap-2 shadow-md display flex justify-center"
                     key={todo._id}
                   >
+                    <input
+                      type="checkbox"
+                      key={todo._id}
+                      value={todoCheck}
+                      onClick={() => {
+                        handleCheck();
+                      }}
+                    />
                     {todo.title}
                   </ul>
                 );
