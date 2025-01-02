@@ -52,10 +52,48 @@ router.get("/view", auth, async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Internal server error",
-      error: err
+      error: err,
     });
   }
   // find the todo with the help of user id
+});
+
+//auth will be added when in use
+
+// using req.query with url paramaters
+// link that will hit this route :- http://localhost:3000/todo/remove?id=677403db4e06293a5a58b1f1
+// router.get("/remove", async (req, res) => {
+//   const todoId = req.query.id;
+//   const todo = await TodoModel.findOne({ _id: todoId });
+//   console.log(todo.title);
+// });
+
+//using req.params with the routes
+// link that will hit this route :- http://localhost:3000/todo/remove/677403db4e06293a5a58b1f1
+// router.get("/remove/:id", async (req, res) => {
+//   const todoid = req.params.id;
+//   const todo = await TodoModel.findOne({ _id: todoid });
+//   console.log(todo.title);
+// });
+
+//using the put method to delete the todo having id in the url
+router.put("/remove", async (req, res) => {
+  const todoId = req.query.id;
+  await TodoModel.deleteOne({ _id: todoId })
+    .then((response) => {
+      console.log("deleted");
+      return res.status(200).json({
+        success: true,
+        message: response,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(404).json({
+        success: false,
+        message: err,
+      });
+    });
 });
 
 module.exports = router;

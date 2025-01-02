@@ -3,3 +3,7 @@ button {
   border: 1px solid black;
   border-radius: 0.5rem;
 }
+
+ul:hover {
+  background-color: lightblue;
+}

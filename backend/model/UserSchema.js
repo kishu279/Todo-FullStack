@@ -10,7 +10,6 @@ const UserModel = mongoose.model("UserModel", userSchema);
 const todoSchema = mongoose.Schema({
   userId: { type: mongoose.Types.ObjectId, ref: UserModel },
   title: { type: String },
-  checked: { type: Boolean },
 });
 const TodoModel = mongoose.model("TodoModel", todoSchema);
 

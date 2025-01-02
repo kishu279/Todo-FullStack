@@ -2,22 +2,24 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import Logo from "../component/Logo";
 import Logout from "../component/Logout";
 
+import "./../App.css";
+import Delete from "../component/Delete";
+
 export default function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [errormssg, setErrormssg] = useState(null);
   const [todos, setTodo] = useState([]); //this is used to store and fetch the todos from backend
   const [add, setAdd] = useState(""); //this is used to set the todos and updating
-
-  const [todoCheck, setTodoCheck] = useState(false); //the todo is checked or not
+  const [selectTodo, setSelectTodo] = useState("");
 
   const token = localStorage.getItem("todo-auth-token");
 
-  async function handleView() {
-    if (!token) {
-      setErrormssg("sign in again!");
-      return;
-    }
+  if (!token) {
+    setErrormssg("sign in again!");
+    return;
+  }
 
+  async function handleView() {
     try {
       setLoading(true);
 
@@ -76,12 +78,46 @@ export default function Dashboard() {
     }
   }
 
-  function handleCheck() {
-    setTodoCheck(!todoCheck);
-    console.log(todoCheck);
+  // function handleSelect() {}
+
+  async function handleDelete() {
     // we will send the checked to backend and will render
-    
+    if (selectTodo.length <= 0) {
+      setErrormssg("first choose");
+    }
+
+    try {
+      console.log(selectTodo);
+      const response = await fetch(
+        `http://localhost:3000/todo/remove?id=${selectTodo}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const err = await response.json();
+        setErrormssg(err.message || `An HTTP error status: ${err.status}`);
+      }
+      const data = await response.json();
+      console.log(data.message);
+    } catch (err) {
+      throw new Error(err.message || "An unexpected error occurred");
+    } finally {
+      handleView();
+      setSelectTodo("");
+    }
   }
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setDeleteTodo(false);
+  //   }, 2000);
+  // }, [deleteTodo]);
 
   if (loading) {
     return <div>Loading ...</div>;
@@ -121,29 +157,49 @@ export default function Dashboard() {
         </div>
       </nav>
 
-      <nav className="flex justify-center mt-[50px] overflow-y-scroll">
-        <div className="border shadow-lg h-[300px] w-[600px] display flex-col">
+      <nav
+        style={{
+          justifyItems: "center",
+          marginTop: "100px",
+        }}
+      >
+        <div
+          style={{
+            border: "2px solid black",
+            height: "400px",
+            width: "600px",
+            fontSize: "22px",
+            overflowY: "auto",
+            textAlign: "center",
+            boxShadow: "15px 10px 10px gray",
+          }}
+        >
           {todos.length > 0
-            ? todos.map((todo) => {
-                return (
-                  <ul
-                    className="gap-2 shadow-md display flex justify-center"
-                    key={todo._id}
-                  >
-                    <input
-                      type="checkbox"
-                      key={todo._id}
-                      value={todoCheck}
-                      onClick={() => {
-                        handleCheck();
-                      }}
-                    />
-                    {todo.title}
-                  </ul>
-                );
-              })
-            : "No todos"}
+            ? todos.map((todo) => (
+                <ul
+                  style={{
+                    border: "1px solid black",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyItems: "center",
+                  }}
+                  onClick={() => {
+                    setSelectTodo(todo._id);
+                  }}
+                  key={todo._id}
+                >
+                  {todo.title}
+                </ul>
+              ))
+            : "no todos"}
         </div>
+
+        {selectTodo.length != 0 ? (
+          <Delete handleDelete={handleDelete} />
+        ) : (
+          <div></div>
+        )}
       </nav>
     </div>
   );
