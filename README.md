@@ -22,7 +22,7 @@ A secure and user-friendly Todo web application where users can manage their tas
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/kishu279/project-sharing.git
+   git clone https://github.com/kishu279/Todo-FullStack.git
    ```
 2. Navigate to the project directory:
    ```bash
